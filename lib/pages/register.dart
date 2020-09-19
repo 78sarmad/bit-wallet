@@ -1,19 +1,27 @@
+import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
+import 'package:bitcoin_wallet/cubit/auth_progress_cubit.dart';
+import 'package:bitcoin_wallet/models/user.dart';
 import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:bitcoin_wallet/widgets/bit_coin_logo2.dart';
+import 'package:bitcoin_wallet/widgets/custom_progress_indicator.dart';
 import 'package:bitcoin_wallet/widgets/rounded_square.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Register extends StatelessWidget {
-  final passwordController = TextEditingController();
+  final _pswdController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    passwordController.text = "password";
+    final _authCubit = context.bloc<AuthCubit>();
+    final _authProgressCubit = context.bloc<AuthProgressCubit>();
 
     return CupertinoPageScaffold(
       backgroundColor: Colors.white,
@@ -68,6 +76,7 @@ class Register extends StatelessWidget {
                             border: Border.all(width: 2, color: AppColors.lightGrey)
                           ),
                           child: CupertinoTextField(
+                            controller: _nameController,
                             style: TextStyle(color: Colors.black),
                             decoration: BoxDecoration(
                               color: Colors.white
@@ -105,6 +114,7 @@ class Register extends StatelessWidget {
                             border: Border.all(width: 2, color: AppColors.lightGrey)
                           ),
                           child: CupertinoTextField(
+                            controller: _emailController,
                             style: TextStyle(color: Colors.black),
                             decoration: BoxDecoration(
                               color: Colors.white
@@ -144,7 +154,7 @@ class Register extends StatelessWidget {
                           ),
                           child: CupertinoTextField(
                             style: TextStyle(color: Colors.black),
-                            controller: passwordController,
+                            controller: _pswdController,
                             decoration: BoxDecoration(
                               color: Colors.white
                             ),
@@ -167,15 +177,36 @@ class Register extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [AppColors.darkOrange, AppColors.lightOrange])
                     ),
-                    child: FlatButton(
-                      onPressed: (){
-                        // Navigations.goToScreen(context, Home());
-                      }, 
-                      child: Text("REGISTER",
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
-                      )
+                    child: BlocBuilder<AuthProgressCubit, AuthProgressState>(
+
+                      builder: (context, state) {
+                        print("Auth State: ${state.runtimeType}");
+
+                        return FlatButton(
+                          onPressed: state is AuthProgressRegister ? null : (){
+                            final email = _emailController.text.trim();
+                            final password = _pswdController.text.trim();
+                            final name = _nameController.text.trim();
+                            final user = AppUser(
+                              email: email,
+                              name: name
+                            );
+    
+                            if(email.isNotEmpty && password.isNotEmpty && name.isNotEmpty){
+                              _authCubit.registerUser(context: context, user: user, password: password);
+                            }else{
+                              _authProgressCubit.emitRegisterErrors("Fill in all fields");
+                            }
+                          }, 
+                          child: state is AuthProgressRegister ?
+                           CustomProgressIndicator() : 
+                           Text("REGISTER",
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                          )
+                        );
+                      },
                     ),
                   )
                 ],
@@ -203,7 +234,7 @@ class Register extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Login()));
+                    _authCubit.gotoLogin();
                   },
                   child: Container(
                     child: RichText(
@@ -231,7 +262,6 @@ class Register extends StatelessWidget {
                 ),
               ],
             )
-
           ],
         ),
       ),

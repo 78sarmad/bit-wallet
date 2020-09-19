@@ -1,3 +1,4 @@
+import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/pages/receive_bitcoin.dart';
@@ -11,6 +12,7 @@ import 'package:bitcoin_wallet/widgets/notification_badge.dart';
 import 'package:bitcoin_wallet/widgets/transaction_history_row.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -26,6 +28,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final double imageSize = 50;
+    final _authCubit = context.bloc<AuthCubit>();
 
     return InnerDrawer(
       key: _innerDrawerKey,
@@ -168,7 +171,7 @@ class _HomeState extends State<Home> {
               child: FlatButton(
                 onPressed: (){
                   _innerDrawerKey.currentState.toggle();
-                  Navigations.goToScreen(context, Login());
+                  _authCubit.logoutUser();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,

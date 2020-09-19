@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "289161317747",
+    "firebase_url": "https://bitcoin-wallet-20483.firebaseio.com",
+    "project_id": "bitcoin-wallet-20483",
+    "storage_bucket": "bitcoin-wallet-20483.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289161317747:android:83e9234519be5e7ce54906",
+        "android_client_info": {
+          "package_name": "com.bitcoinwallet.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289161317747-om4bsr0fnck0ma3nnjbqasv6fbih0ok5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5et03CXBh6s5tSWYddGCWNc7PVMtJbvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289161317747-om4bsr0fnck0ma3nnjbqasv6fbih0ok5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

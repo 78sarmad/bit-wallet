@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bitcoin_wallet/main.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/navigations.dart';
@@ -83,7 +84,7 @@ class _LoadingBarState extends State<LoadingBar> {
       setState(() {
         if(progressValue == 1){
           timer.cancel();
-          Navigations.goToScreen(context, Login());
+          Navigations.goToScreen(context, StartPage());
         }
         else {
           progressValue += 0.2;
