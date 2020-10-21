@@ -4,14 +4,19 @@ import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/pages/register.dart';
 import 'package:bitcoin_wallet/pages/splash.dart';
+import 'package:bitcoin_wallet/services/authentication_service.dart';
+import 'package:bitcoin_wallet/utils/navigations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import 'utils/methods.dart';
 
-void main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -21,65 +26,37 @@ void main() async{
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
-        BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider(create: (context) => AuthProgressCubit())
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+        )
       ],
       child: CupertinoApp(
-          title: 'Bitcoin Wallet',
-          home: SplashScreen(),
-          debugShowCheckedModeBanner: false,
-        ),
+        title: 'Bitcoin Wallet',
+        home: SplashScreen(),
+        // home: AuthenticationWrapper(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
 
-class StartPage extends StatefulWidget {
-  StartPage({Key key}) : super(key: key);
+// class AuthenticationWrapper extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final firebaseUser = context.watch<User>();
 
-  @override
-  _StartPageState createState() => _StartPageState();
-}
-
-class _StartPageState extends State<StartPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.bloc<AuthCubit>().checkSignedInUser();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    
-    return BlocListener<AuthProgressCubit, AuthProgressState>(
-      listener: (context, state) {
-        if(state is AuthProgressLoginError){
-          Utils.showFirebaseErrorToast(state.error);
-        }
-        else if(state is AuthProgressRegisterError){
-          Utils.showFirebaseErrorToast(state.error);
-        }
-        else if(state is AuthProgressLoginSuccess){
-          Utils.showGeneralToast("Logged in successfully");
-        }
-        else if(state is AuthProgressRegisterSuccess){
-          Utils.showGeneralToast("Registration successful");
-        }
-      },
-      child: BlocBuilder <AuthCubit, AuthState>(
-          builder: (context, state){
-            if(state is AuthStateLoggedIn){
-              return Home();
-            }
-            else if(state is AuthStateRegister){
-              return Register();
-            }
-            else {
-              return Login();
-            }
-          }
-        ),
-    );
-  }
-}
+//     if (firebaseUser != null) {
+//       Toast.show("Already signed in", context,
+//           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+//       Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+//     } else {
+//       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+//     }
+//   }
+// }

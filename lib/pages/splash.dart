@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:bitcoin_wallet/main.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
+import 'package:bitcoin_wallet/services/authentication_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/navigations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 200,
               height: 100,
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/images/bitcards.png"))
-              ),
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/bitcards.png"))),
             ),
-
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -58,10 +59,10 @@ class _LoadingBarState extends State<LoadingBar> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration.zero, (){
+    Future.delayed(Duration.zero, () {
       startTimer();
+      Navigations.goToScreen(context, Login());
     });
-
   }
 
   @override
@@ -78,19 +79,16 @@ class _LoadingBarState extends State<LoadingBar> {
     );
   }
 
-  void startTimer(){
-    Timer.periodic(Duration(seconds: 1), 
-    (timer){
+  void startTimer() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        if(progressValue == 1){
+        if (progressValue >= 1) {
           timer.cancel();
-          Navigations.goToScreen(context, StartPage());
-        }
-        else {
-          progressValue += 0.2;
+          Navigations.goToScreen(context, Login());
+        } else {
+          progressValue += 0.4;
         }
       });
-      
     });
   }
 }
