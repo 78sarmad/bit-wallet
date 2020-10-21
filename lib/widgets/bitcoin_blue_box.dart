@@ -15,12 +15,13 @@ class BitcoinBlueBox extends StatelessWidget {
             // width: double.infinity,
             height: 150,
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.lightBlue, AppColors.darkBlue]),
-              borderRadius: BorderRadius.circular(10.0)
-            ),
+                gradient: LinearGradient(
+                    colors: [AppColors.lightBlue, AppColors.darkBlue]),
+                borderRadius: BorderRadius.circular(10.0)),
             child: Align(
               alignment: Alignment.topLeft,
-              child: SvgPicture.asset("assets/images/bit.svg",
+              child: SvgPicture.asset(
+                "assets/images/bit.svg",
                 height: 90,
                 fit: BoxFit.cover,
               ),
@@ -41,48 +42,47 @@ class BitcoinBlueBox extends StatelessWidget {
                             width: 30,
                             height: 30,
                             decoration: BoxDecoration(
-                              color: AppColors.darkBlue,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Colors.white)
-                            ) ,
+                                color: AppColors.darkBlue,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: Colors.white)),
                             child: Center(
-                              child: SvgPicture.asset("assets/images/bit_white.svg",
-                                
+                              child: SvgPicture.asset(
+                                "assets/images/bit_white.svg",
                               ),
                             ),
                           ),
                           Container(
-                            child: Text("Bitcoin (BTC)",
-                              style: TextStyle(color: Colors.white), 
+                            child: Text(
+                              "Bitcoin (BTC)",
+                              style: TextStyle(color: Colors.white),
                             ),
                           )
-                        ]  ,
+                        ],
                       ),
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            child: Text("\$ 9054.32",
-                              style: TextStyle(color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold
-                              ), 
+                            child: Text(
+                              "\$ 9054.32",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
-                            child: Text("0.09BTC",
-                              style: TextStyle(color: Colors.white,
-                                fontSize: 14
-                              ), 
+                            child: Text(
+                              "0.09BTC",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
                             ),
                           )
-                        ]  ,
+                        ],
                       )
                     ],
                   ),
                 ),
-
               ],
             ),
           )
