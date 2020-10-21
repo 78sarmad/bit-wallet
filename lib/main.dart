@@ -1,5 +1,5 @@
-import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
-import 'package:bitcoin_wallet/cubit/auth_progress_cubit.dart';
+// import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
+// import 'package:bitcoin_wallet/cubit/auth_progress_cubit.dart';
 import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/pages/register.dart';
@@ -10,10 +10,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-
+import 'package:provider/provider.dart';
 import 'utils/methods.dart';
 
 Future<void> main() async {
@@ -26,8 +26,9 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
+    return CupertinoApp(
+      title: 'Bitcoin Wallet',
+      home: MultiProvider(providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
@@ -35,13 +36,9 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
         )
-      ],
-      child: CupertinoApp(
-        title: 'Bitcoin Wallet',
-        home: SplashScreen(),
-        // home: AuthenticationWrapper(),
-        debugShowCheckedModeBanner: false,
-      ),
+      ], child: SplashScreen()),
+      // home: AuthenticationWrapper(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

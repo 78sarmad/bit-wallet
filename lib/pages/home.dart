@@ -1,20 +1,25 @@
-import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
+// import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
+// import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/pages/receive_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/send_bitcoin.dart';
+import 'package:bitcoin_wallet/pages/splash.dart';
 import 'package:bitcoin_wallet/pages/withdraw_to_bank.dart';
 import 'package:bitcoin_wallet/pages/withdraw_to_naira.dart';
+import 'package:bitcoin_wallet/services/authentication_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:bitcoin_wallet/widgets/custom_cupertino_icon.dart';
 import 'package:bitcoin_wallet/widgets/notification_badge.dart';
 import 'package:bitcoin_wallet/widgets/transaction_history_row.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -22,13 +27,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final GlobalKey<InnerDrawerState> _innerDrawerKey = GlobalKey<InnerDrawerState>(); 
+  final GlobalKey<InnerDrawerState> _innerDrawerKey =
+      GlobalKey<InnerDrawerState>();
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final double imageSize = 50;
-    final _authCubit = context.bloc<AuthCubit>();
+    // final _authCubit = context.bloc<AuthCubit>();
 
     return InnerDrawer(
       key: _innerDrawerKey,
@@ -39,8 +45,8 @@ class _HomeState extends State<Home> {
               width: double.infinity,
               height: 200,
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [AppColors.darkOrange, AppColors.lightOrange])
-              ),
+                  gradient: LinearGradient(
+                      colors: [AppColors.darkOrange, AppColors.lightOrange])),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -49,162 +55,147 @@ class _HomeState extends State<Home> {
                     width: imageSize,
                     height: imageSize,
                     decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(imageSize/2)
-                      // image: DecorationImage(
-                      //   image: null
-                      // )
-                    ),
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(imageSize / 2)
+                        // image: DecorationImage(
+                        //   image: null
+                        // )
+                        ),
                   ),
-
                   Container(
                     margin: const EdgeInsets.only(top: 10),
-                    child: Text("John Doe",
-                      style: TextStyle(color: Colors.white,
-                        fontSize: 25
-                      ),
+                    child: Text(
+                      "John Doe",
+                      style: TextStyle(color: Colors.white, fontSize: 25),
                       textAlign: TextAlign.center,
                     ),
                   )
                 ],
               ),
             ),
-
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: FlatButton(
-                onPressed: (){
-                   _innerDrawerKey.currentState.toggle();
-                   Navigations.goToScreen(context, WithdrawToNaira());
+                onPressed: () {
+                  _innerDrawerKey.currentState.toggle();
+                  Navigations.goToScreen(context, WithdrawToNaira());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.monetization_on,
+                    Icon(
+                      Icons.monetization_on,
                       size: 32,
                       color: AppColors.lightOrange,
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(left: 10),
-                      child: Text("Withdraw to Naira",
-                        style: TextStyle(color: Colors.black,
-                          fontSize: 18
-                        ),
+                      child: Text(
+                        "Withdraw to Naira",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: FlatButton(
-                onPressed: (){
+                onPressed: () {
                   _innerDrawerKey.currentState.toggle();
                   Navigations.goToScreen(context, WithdrawToBank());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.account_balance,
+                    Icon(
+                      Icons.account_balance,
                       size: 32,
                       color: AppColors.lightOrange,
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(left: 10),
-                      child: Text("Withdraw to Bank",
-                        style: TextStyle(color: Colors.black,
-                          fontSize: 18
-                        ),
+                      child: Text(
+                        "Withdraw to Bank",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: FlatButton(
-                onPressed: (){
+                onPressed: () {
                   _innerDrawerKey.currentState.toggle();
                   Navigations.goToScreen(context, BuyBitcoin());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.credit_card,
+                    Icon(
+                      Icons.credit_card,
                       size: 32,
                       color: AppColors.lightOrange,
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(left: 10),
-                      child: Text("Buy Bitcoin",
-                        style: TextStyle(color: Colors.black,
-                          fontSize: 18
-                        ),
+                      child: Text(
+                        "Buy Bitcoin",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 15, bottom: 10),
-                    height: 1,
-                    color: AppColors.lightGrey,
-                  )
-                )
+                    child: Container(
+                  margin: const EdgeInsets.only(top: 15, bottom: 10),
+                  height: 1,
+                  color: AppColors.lightGrey,
+                ))
               ],
             ),
-
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: FlatButton(
-                onPressed: (){
+                onPressed: () {
                   _innerDrawerKey.currentState.toggle();
-                  _authCubit.logoutUser();
+                  context.read<AuthenticationService>().signOut();
+                  Navigations.goToScreen(context, Login());
+                  // _authCubit.logoutUser();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.close,
+                    Icon(
+                      Icons.close,
                       size: 32,
                       color: AppColors.lightOrange,
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(left: 10),
-                      child: Text("Signout ",
-                        style: TextStyle(color: Colors.black,
-                          fontSize: 18
-                        ),
+                      child: Text(
+                        "Signout ",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
                 ),
               ),
             )
-
-            
           ],
         ),
       ),
-      backgroundDecoration: BoxDecoration(
-        color: AppColors.appBackground
-      ),
+      backgroundDecoration: BoxDecoration(color: AppColors.appBackground),
       onTapClose: true,
       scaffold: CupertinoPageScaffold(
         backgroundColor: Colors.white,
-        
         child: SafeArea(
           child: Column(
             children: [
@@ -217,35 +208,32 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [AppColors.darkOrange, AppColors.lightOrange])
-                    ),
+                        gradient: LinearGradient(colors: [
+                      AppColors.darkOrange,
+                      AppColors.lightOrange
+                    ])),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             _innerDrawerKey.currentState.toggle();
                           },
                           child: CustomCupertinoIcon(
-                            iconCode: 0xF394, color: Colors.white
-                          ),
+                              iconCode: 0xF394, color: Colors.white),
                         ),
-
                         Container(
-                          child: Text("Your account",
-                            style: TextStyle(color: Colors.white,
-                              fontSize: 20
-                            ),
+                          child: Text(
+                            "Your account",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
-
                         Container(
                           child: NotificationBadge(),
                         )
                       ],
                     ),
                   ),
-
                   Positioned(
                     left: 10,
                     right: 10,
@@ -259,12 +247,15 @@ class _HomeState extends State<Home> {
                               // width: double.infinity,
                               height: 150,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [AppColors.lightBlue, AppColors.darkBlue]),
-                                borderRadius: BorderRadius.circular(10.0)
-                              ),
+                                  gradient: LinearGradient(colors: [
+                                    AppColors.lightBlue,
+                                    AppColors.darkBlue
+                                  ]),
+                                  borderRadius: BorderRadius.circular(10.0)),
                               child: Align(
                                 alignment: Alignment.topLeft,
-                                child: SvgPicture.asset("assets/images/bit.svg",
+                                child: SvgPicture.asset(
+                                  "assets/images/bit.svg",
                                   height: 90,
                                   fit: BoxFit.cover,
                                 ),
@@ -272,123 +263,146 @@ class _HomeState extends State<Home> {
                             ),
                             Container(
                               child: Column(
-                                
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 10),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               width: 30,
                                               height: 30,
                                               decoration: BoxDecoration(
-                                                color: AppColors.darkBlue,
-                                                borderRadius: BorderRadius.circular(15),
-                                                border: Border.all(color: Colors.white)
-                                              ) ,
+                                                  color: AppColors.darkBlue,
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                      color: Colors.white)),
                                               child: Center(
-                                                child: SvgPicture.asset("assets/images/bit_white.svg",
-                                                  
+                                                child: SvgPicture.asset(
+                                                  "assets/images/bit_white.svg",
                                                 ),
                                               ),
                                             ),
                                             Container(
-                                              child: Text("Bitcoin (BTC)",
-                                                style: TextStyle(color: Colors.white), 
+                                              child: Text(
+                                                "Bitcoin (BTC)",
+                                                style: TextStyle(
+                                                    color: Colors.white),
                                               ),
                                             )
-                                          ]  ,
+                                          ],
                                         ),
-
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              child: Text("\$9054.32",
-                                                style: TextStyle(color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold
-                                                ), 
+                                              child: Text(
+                                                "\$9054.32",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                             Container(
-                                              child: Text("0.09BTC",
-                                                style: TextStyle(color: Colors.white,
-                                                  fontSize: 14
-                                                ), 
+                                              child: Text(
+                                                "0.09BTC",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14),
                                               ),
                                             )
-                                          ]  ,
+                                          ],
                                         )
                                       ],
                                     ),
                                   ),
-
                                   Container(
-                                    margin: const EdgeInsets.only(left: 10, right: 10, top: 30),
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 30),
                                     child: Row(
                                       children: [
                                         Expanded(
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [AppColors.darkOrange, AppColors.lightOrange])
-                                            ),
+                                                gradient: LinearGradient(
+                                                    colors: [
+                                                  AppColors.darkOrange,
+                                                  AppColors.lightOrange
+                                                ])),
                                             child: FlatButton(
-                                              onPressed: (){
-                                                Navigations.goToScreen(context, SendBitcoin());
-                                              }, 
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomCupertinoIcon(
-                                                    iconCode: 0xF473, 
-                                                    color: Colors.white
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets.only(left: 10),
-                                                    child: Text("Send",
-                                                      style: TextStyle(color: Colors.white), 
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ),
-                                           ),
-                                         ),   
-
-                                         SizedBox(
-                                            width: 8,
-                                         ),                                   
-
-                                         Expanded(
+                                                onPressed: () {
+                                                  Navigations.goToScreen(
+                                                      context, SendBitcoin());
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomCupertinoIcon(
+                                                        iconCode: 0xF473,
+                                                        color: Colors.white),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 10),
+                                                      child: Text(
+                                                        "Send",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [AppColors.darkOrange, AppColors.lightOrange])
-                                            ),
+                                                gradient: LinearGradient(
+                                                    colors: [
+                                                  AppColors.darkOrange,
+                                                  AppColors.lightOrange
+                                                ])),
                                             child: FlatButton(
-                                              onPressed: (){
-                                                Navigations.goToScreen(context, ReceiveBitcoin());
-                                              }, 
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomCupertinoIcon(
-                                                    iconCode: 0xF2C9, 
-                                                    color: Colors.white
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets.only(left: 10),
-                                                    child: Text("Receive",
-                                                      style: TextStyle(color: Colors.white), 
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ),
+                                                onPressed: () {
+                                                  Navigations.goToScreen(
+                                                      context,
+                                                      ReceiveBitcoin());
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomCupertinoIcon(
+                                                        iconCode: 0xF2C9,
+                                                        color: Colors.white),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 10),
+                                                      child: Text(
+                                                        "Receive",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )),
                                           ),
                                         )
                                       ],
@@ -404,88 +418,75 @@ class _HomeState extends State<Home> {
                   )
                 ],
               ),
-
               Container(
                 margin: const EdgeInsets.only(top: 35),
-                child: Text("Transaction History",
-                  style: TextStyle(color: Colors.black,
-                    fontWeight: FontWeight.bold
-                  ),
+                child: Text(
+                  "Transaction History",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
-
               Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  shrinkWrap: true,
-                  children: [
-                    TransactionHistoryRow(
-                      name: "Khalid Navabi",
-                      time: "Yesterday",
-                      image: "",
-                      amount: "\$998",
-                    ),
-
-                    TransactionHistoryRow(
-                      name: "Ethereum",
-                      time: "14:20 12 Apr",
-                      image: "",
-                      amount: "\$100",
-                    ),
-
-                    TransactionHistoryRow(
-                      name: "Sidney Cole",
-                      time: "13:39 16 July",
-                      image: "",
-                      amount: "\$450",
-                    ),
-
-                     TransactionHistoryRow(
-                      name: "Evangeline Lily",
-                      time: "14:20 12 Apr",
-                      image: "",
-                      amount: "\$1000",
-                    ),
-
-                     TransactionHistoryRow(
-                      name: "James Corden",
-                      time: "13:39 16 July",
-                      image: "",
-                      amount: "\$450",
-                    ),
-
-                     TransactionHistoryRow(
-                      name: "Rajesh Kumar",
-                      time: "14:20 12 Apr",
-                      image: "",
-                      amount: "\$1000",
-                    ),
-                    TransactionHistoryRow(
-                      name: "Khalid Navabi",
-                      time: "Yesterday",
-                      image: "",
-                      amount: "\$998",
-                    ),
-
-                    TransactionHistoryRow(
-                      name: "Ethereum",
-                      time: "14:20 12 Apr",
-                      image: "",
-                      amount: "\$100",
-                    ),
-
-                    TransactionHistoryRow(
-                      name: "Sidney Cole",
-                      time: "13:39 16 July",
-                      image: "",
-                      amount: "\$450",
-                    ),
-                  ],
-                )
-              )
-
-
-
+                  child: ListView(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                shrinkWrap: true,
+                children: [
+                  TransactionHistoryRow(
+                    name: "Khalid Navabi",
+                    time: "Yesterday",
+                    image: "",
+                    amount: "\$998",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Ethereum",
+                    time: "14:20 12 Apr",
+                    image: "",
+                    amount: "\$100",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Sidney Cole",
+                    time: "13:39 16 July",
+                    image: "",
+                    amount: "\$450",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Evangeline Lily",
+                    time: "14:20 12 Apr",
+                    image: "",
+                    amount: "\$1000",
+                  ),
+                  TransactionHistoryRow(
+                    name: "James Corden",
+                    time: "13:39 16 July",
+                    image: "",
+                    amount: "\$450",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Rajesh Kumar",
+                    time: "14:20 12 Apr",
+                    image: "",
+                    amount: "\$1000",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Khalid Navabi",
+                    time: "Yesterday",
+                    image: "",
+                    amount: "\$998",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Ethereum",
+                    time: "14:20 12 Apr",
+                    image: "",
+                    amount: "\$100",
+                  ),
+                  TransactionHistoryRow(
+                    name: "Sidney Cole",
+                    time: "13:39 16 July",
+                    image: "",
+                    amount: "\$450",
+                  ),
+                ],
+              ))
             ],
           ),
         ),
