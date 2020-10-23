@@ -1,19 +1,10 @@
-// import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
-// import 'package:bitcoin_wallet/cubit/auth_progress_cubit.dart';
-import 'package:bitcoin_wallet/models/user.dart';
-import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
-import 'package:bitcoin_wallet/services/authentication_service.dart';
+import 'package:bitcoin_wallet/services/auth_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
-import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:bitcoin_wallet/widgets/bit_coin_logo2.dart';
-import 'package:bitcoin_wallet/widgets/custom_progress_indicator.dart';
 import 'package:bitcoin_wallet/widgets/rounded_square.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class Register extends StatelessWidget {
@@ -28,19 +19,19 @@ class Register extends StatelessWidget {
     return CupertinoPageScaffold(
       backgroundColor: Colors.white,
       child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                      margin: const EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: BitCoinLogo2()),
                   Container(
-                    margin: const EdgeInsets.only(top: 8),
+                    margin: const EdgeInsets.only(top: 10, bottom: 50),
                     child: Text(
                       "Register",
                       style:
@@ -55,7 +46,7 @@ class Register extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 15),
                     width: screenWidth * 0.9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +61,7 @@ class Register extends StatelessWidget {
                         ),
                         Container(
                           padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 10, bottom: 10),
+                              left: 10, right: 10, top: 10, bottom: 15),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
                               border: Border.all(
@@ -92,7 +83,7 @@ class Register extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 15),
                     width: screenWidth * 0.9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +121,7 @@ class Register extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(bottom: 20),
+                    margin: const EdgeInsets.only(bottom: 30),
                     width: screenWidth * 0.9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,13 +145,14 @@ class Register extends StatelessWidget {
                             style: TextStyle(color: Colors.black),
                             controller: _pswdController,
                             decoration: BoxDecoration(color: Colors.white),
+                            placeholder: "********",
                             placeholderStyle:
                                 TextStyle(color: AppColors.lightGrey),
                             suffix: Icon(
                               CupertinoIcons.padlock,
                               color: AppColors.lightGrey,
                             ),
-                            obscureText: true,
+                            obscureText: false,
                           ),
                         )
                       ],
@@ -174,18 +166,31 @@ class Register extends StatelessWidget {
                       AppColors.lightOrange
                     ])),
                     child: FlatButton(
-                      onPressed: () {
+                      onPressed: () async {
                         final email = _emailController.text.trim();
                         final password = _pswdController.text.trim();
                         final name = _nameController.text.trim();
-                        final user = AppUser(email: email, name: name);
+                        // final user = AppUser(email: email, name: name);
 
-                        if (email.isNotEmpty &&
-                            password.isNotEmpty &&
-                            name.isNotEmpty) {
-                          context
-                              .read<AuthenticationService>()
-                              .signUp(email: email, password: password);
+                        if (email.isNotEmpty && password.isNotEmpty) {
+                          await signUp(name, email, password);
+
+                          Toast.show("Registration Successful. Please sign in.",
+                              context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+
+                          bool isSignedIn = await checkAuth();
+                          if (isSignedIn) {
+                            final name = await checkDisplayName();
+                            final email = await checkDisplayEmail();
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return Login();
+                              },
+                            ));
+                          }
                         } else {
                           Toast.show("Fill in all the fields", context,
                               duration: Toast.LENGTH_SHORT,
@@ -201,40 +206,44 @@ class Register extends StatelessWidget {
                 ],
               ),
             ),
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                    left: -10,
-                    top: -60,
-                    child:
-                        Transform.rotate(angle: -45, child: RoundedSquare())),
-                Positioned(
-                    right: -0,
-                    bottom: -50,
-                    child:
-                        Transform.rotate(angle: -45, child: RoundedSquare())),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
-                  },
-                  child: Container(
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "Already have an account? ",
-                          style: TextStyle(color: Colors.black, fontSize: 18)),
-                      TextSpan(
-                          text: "Login",
-                          style: TextStyle(
-                              color: AppColors.darkOrange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18))
-                    ])),
+            SizedBox(height: 60),
+            Center(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                      left: -10,
+                      top: -60,
+                      child:
+                          Transform.rotate(angle: -45, child: RoundedSquare())),
+                  Positioned(
+                      right: -0,
+                      bottom: -50,
+                      child:
+                          Transform.rotate(angle: -45, child: RoundedSquare())),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
+                    child: Container(
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Already have an account? ",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 18)),
+                        TextSpan(
+                            text: "Login",
+                            style: TextStyle(
+                                color: AppColors.darkOrange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18))
+                      ])),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),

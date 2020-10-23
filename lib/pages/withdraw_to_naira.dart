@@ -18,8 +18,9 @@ class WithdrawToNaira extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         backgroundColor: AppColors.appBackground,
-        middle: Text("Withdraw to Naira",
-          style: TextStyle(color: Colors.black),
+        middle: Text(
+          "Withdraw to Naira",
+          style: TextStyle(color: Colors.black, fontSize: Fonts.pageHeadText),
         ),
         actionsForegroundColor: Colors.black,
       ),
@@ -28,10 +29,9 @@ class WithdrawToNaira extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 20, left: 15, right: 15),
-            child: BitcoinBlueBox()
-          ),
-
+              margin: const EdgeInsets.only(
+                  top: 10, bottom: 20, left: 15, right: 15),
+              child: BitcoinBlueBox()),
           Expanded(
             child: Card(
               elevation: 3,
@@ -45,37 +45,37 @@ class WithdrawToNaira extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         CustomInputField(
-                          label: "Bitcoin", 
-                          placeHolder: "\$ 0.00BTC", 
-                          suffixIcon: BitcoinBlue(size: 24, iconSize: 18,)
-                        ),
-
+                            label: "Bitcoin",
+                            placeHolder: "\$ 0.00BTC",
+                            suffixIcon: BitcoinBlue(
+                              size: 24,
+                              iconSize: 18,
+                            )),
                         Container(
                           margin: const EdgeInsets.only(top: 30),
-                          child: Text("₦ 15,000",
+                          child: Text(
+                            "₦ 15,000",
                             style: TextStyle(
-                              color: Colors.black, 
-                              fontWeight: FontWeight.bold, 
-                              fontSize: 18
-                            ),
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
                           ),
                         ),
-
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: Text("Nigerian Currency",
+                          child: Text(
+                            "Nigerian Currency",
                             style: TextStyle(
-                              color: AppColors.lightGrey, 
+                              color: AppColors.lightGrey,
                               fontSize: 14,
                             ),
                           ),
                         ),
                       ],
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(top: 15, bottom: 20),
-                      child: GradientBtn(label: "WITHDRAW", ontap: (){}),
+                      child: GradientBtn(label: "WITHDRAW", ontap: () {}),
                     )
                   ],
                 ),
@@ -86,5 +86,4 @@ class WithdrawToNaira extends StatelessWidget {
       ),
     );
   }
-
 }

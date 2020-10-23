@@ -1,29 +1,29 @@
-// import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
-import 'package:bitcoin_wallet/pages/login.dart';
-// import 'package:bitcoin_wallet/pages/login.dart';
+import 'package:bitcoin_wallet/pages/edit_profile.dart';
 import 'package:bitcoin_wallet/pages/receive_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/send_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/splash.dart';
 import 'package:bitcoin_wallet/pages/withdraw_to_bank.dart';
 import 'package:bitcoin_wallet/pages/withdraw_to_naira.dart';
-import 'package:bitcoin_wallet/services/authentication_service.dart';
+import 'package:bitcoin_wallet/services/auth_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:bitcoin_wallet/widgets/custom_cupertino_icon.dart';
 import 'package:bitcoin_wallet/widgets/notification_badge.dart';
 import 'package:bitcoin_wallet/widgets/transaction_history_row.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
+
+  String name, email;
+  Home({Key key, this.name, this.email}) : super(key: key);
 }
 
 class _HomeState extends State<Home> {
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final double imageSize = 50;
+    final double imageSize = 60;
     // final _authCubit = context.bloc<AuthCubit>();
 
     return InnerDrawer(
@@ -47,34 +47,40 @@ class _HomeState extends State<Home> {
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [AppColors.darkOrange, AppColors.lightOrange])),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    width: imageSize,
-                    height: imageSize,
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(imageSize / 2)
-                        // image: DecorationImage(
-                        //   image: null
-                        // )
-                        ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      "John Doe",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                      textAlign: TextAlign.center,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => EditProfilePage(
+                          name: widget.name, email: widget.email)));
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: imageSize,
+                      height: imageSize,
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(imageSize / 2),
+                      ),
+                      child: Image(image: AssetImage('assets/images/user.png')),
                     ),
-                  )
-                ],
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        widget.name,
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: FlatButton(
                 onPressed: () {
                   _innerDrawerKey.currentState.toggle();
@@ -164,10 +170,19 @@ class _HomeState extends State<Home> {
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: FlatButton(
-                onPressed: () {
+                onPressed: () async {
                   _innerDrawerKey.currentState.toggle();
-                  context.read<AuthenticationService>().signOut();
-                  Navigations.goToScreen(context, Login());
+                  await signOut();
+                  await checkAuth();
+                  Toast.show("Signing out...", context,
+                      duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return SplashScreen();
+                      },
+                    ),
+                  );
                   // _authCubit.logoutUser();
                 },
                 child: Row(
@@ -205,7 +220,8 @@ class _HomeState extends State<Home> {
                   Container(
                     alignment: Alignment.topCenter,
                     height: 200,
-                    padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 20, right: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(colors: [

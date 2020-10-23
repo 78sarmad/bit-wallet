@@ -1,17 +1,11 @@
-// import 'package:bitcoin_wallet/cubit/auth_cubit.dart';
-// import 'package:bitcoin_wallet/cubit/auth_progress_cubit.dart';
 import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/register.dart';
-import 'package:bitcoin_wallet/pages/splash.dart';
-import 'package:bitcoin_wallet/services/authentication_service.dart';
+import 'package:bitcoin_wallet/services/auth_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/widgets/bit_coin_logo2.dart';
-// import 'package:bitcoin_wallet/widgets/custom_progress_indicator.dart';
 import 'package:bitcoin_wallet/widgets/rounded_square.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class Login extends StatelessWidget {
@@ -114,6 +108,7 @@ class Login extends StatelessWidget {
                             style: TextStyle(color: Colors.black),
                             controller: _pswdTxtController,
                             decoration: BoxDecoration(color: Colors.white),
+                            placeholder: "********",
                             placeholderStyle:
                                 TextStyle(color: AppColors.lightGrey),
                             suffix: Icon(
@@ -139,9 +134,27 @@ class Login extends StatelessWidget {
                         final password = _pswdTxtController.text.trim();
 
                         if (email.isNotEmpty && password.isNotEmpty) {
-                          context
-                              .read<AuthenticationService>()
-                              .signIn(email: email, password: password);
+                          await signIn(email, password);
+                          Toast.show("Signing in...", context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+
+                          bool isSignedIn = await checkAuth();
+                          if (isSignedIn) {
+                            final name = await checkDisplayName();
+                            final email = await checkDisplayEmail();
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return Home(name: name, email: email);
+                              },
+                            ));
+                          } else {
+                            Toast.show("Incorrect email or password", context,
+                                duration: Toast.LENGTH_SHORT,
+                                gravity: Toast.BOTTOM);
+                            Navigator.of(context).pop();
+                          }
                         } else {
                           Toast.show("Fill in all the fields", context,
                               duration: Toast.LENGTH_SHORT,

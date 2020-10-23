@@ -12,5 +12,8 @@ class AppColors {
   static const Color white2 = Color(0xFFF5F6FA);
   static const Color green = Color(0xFF37E39F);
   static const Color lighBlue3 = Color(0xFF00A2F6);
+}
 
+class Fonts {
+  static const double pageHeadText = 20;
 }
