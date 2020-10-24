@@ -8,10 +8,14 @@ class CustomInputField extends StatelessWidget {
   final String placeHolder;
   final Widget suffixIcon;
   final TextInputType keyboardType;
+  final TextEditingController controller;
 
-
-  CustomInputField({@required this.label, @required this.placeHolder, 
-  this.suffixIcon, this.keyboardType});
+  CustomInputField(
+      {@required this.label,
+      @required this.placeHolder,
+      this.suffixIcon,
+      this.keyboardType,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +30,26 @@ class CustomInputField extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 5),
-            child: Text(label,
+            child: Text(
+              label,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              border: Border.all(width: 2, color: AppColors.lightGrey)
-            ),
+                borderRadius: BorderRadius.circular(5.0),
+                border: Border.all(width: 2, color: AppColors.lightGrey)),
             child: CupertinoTextField(
               style: TextStyle(color: Colors.black),
-              decoration: BoxDecoration(
-                color: Colors.white
-              ),
+              decoration: BoxDecoration(color: Colors.white),
+              controller: controller,
               placeholder: placeHolder,
-              placeholderStyle: TextStyle(
-                color: AppColors.lightGrey
-              ),
+              placeholderStyle: TextStyle(color: AppColors.lightGrey),
               suffix: suffixIcon != null ? suffixIcon : Container(),
-              keyboardType: keyboardType != null ? keyboardType : TextInputType.text,
+              keyboardType:
+                  keyboardType != null ? keyboardType : TextInputType.text,
             ),
           )
         ],

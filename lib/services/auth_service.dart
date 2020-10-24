@@ -20,7 +20,7 @@ Future<void> signUp(String name, String email, String password) async {
   try {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
-    User user = FirebaseAuth.instance.currentUser;
+    User user = FirebaseAuth.instance.currentUser ?? "null";
     user.updateProfile(displayName: name);
     print("Success");
   } on FirebaseAuthException catch (e) {
@@ -36,9 +36,6 @@ Future<void> signUp(String name, String email, String password) async {
 
 Future<void> signIn(String email, String password) async {
   await Firebase.initializeApp();
-  await FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: email, password: password);
-  print("Success");
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);

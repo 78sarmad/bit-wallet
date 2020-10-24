@@ -1,4 +1,5 @@
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
+import 'package:bitcoin_wallet/pages/confirmation.dart';
 import 'package:bitcoin_wallet/pages/edit_profile.dart';
 import 'package:bitcoin_wallet/pages/receive_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/send_bitcoin.dart';
@@ -172,6 +173,33 @@ class _HomeState extends State<Home> {
               child: FlatButton(
                 onPressed: () async {
                   _innerDrawerKey.currentState.toggle();
+                  Navigations.goToScreen(context, Confirmation());
+                  // _authCubit.logoutUser();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.credit_card,
+                      size: 32,
+                      color: AppColors.lightOrange,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Manage Credit Card",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: FlatButton(
+                onPressed: () async {
+                  _innerDrawerKey.currentState.toggle();
                   await signOut();
                   await checkAuth();
                   Toast.show("Signing out...", context,
@@ -196,7 +224,7 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: const EdgeInsets.only(left: 10),
                       child: Text(
-                        "Signout ",
+                        "Sign out",
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ),

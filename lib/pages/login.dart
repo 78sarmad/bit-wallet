@@ -133,8 +133,10 @@ class Login extends StatelessWidget {
                         final email = _emailTxtController.text.trim();
                         final password = _pswdTxtController.text.trim();
 
-                        if (email.isNotEmpty && password.isNotEmpty) {
-                          await signIn(email, password);
+                        // TODO: reverse check
+                        if (!email.isNotEmpty && !password.isNotEmpty) {
+                          await signIn("emily@gmail.com", "123456");
+                          // await signIn(email, password);
                           Toast.show("Signing in...", context,
                               duration: Toast.LENGTH_LONG,
                               gravity: Toast.BOTTOM);
