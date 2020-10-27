@@ -4,13 +4,14 @@ import 'package:bitcoin_wallet/utils/header.dart';
 import 'package:bitcoin_wallet/widgets/gradient_btn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
-class AddContact extends StatefulWidget {
+class Notifications extends StatefulWidget {
   @override
-  _AddContactState createState() => _AddContactState();
+  _NotificationsState createState() => _NotificationsState();
 }
 
-class _AddContactState extends State<AddContact> {
+class _NotificationsState extends State<Notifications> {
   TextEditingController nameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -26,10 +27,8 @@ class _AddContactState extends State<AddContact> {
       ),
       backgroundColor: Colors.white,
       child: Container(
-        padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
+        padding: EdgeInsets.only(left: 16, top: 50, right: 16, bottom: 100),
+        child: ListView(
           children: [
             Center(
               child: Column(
@@ -81,6 +80,10 @@ class _AddContactState extends State<AddContact> {
                                     label: "ADD CONTACT",
                                     ontap: () {
                                       //TODO: call contact service method
+                                      Toast.show("Contact added.", context,
+                                          duration: Toast.LENGTH_SHORT,
+                                          gravity: Toast.BOTTOM);
+                                      Navigator.of(context).pop();
                                     },
                                   ),
                                 )

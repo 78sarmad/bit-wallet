@@ -16,9 +16,10 @@ class ReceipientCard extends StatelessWidget {
       height: containerSize,
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: isSelected ? AppColors.darkOrange : AppColors.lightGrey2)
-      ),
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+              width: isSelected ? 2 : 1,
+              color: isSelected ? AppColors.darkOrange : AppColors.lightGrey2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -26,16 +27,16 @@ class ReceipientCard extends StatelessWidget {
             width: imageSize,
             height: imageSize,
             decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(imageSize/2)
-              // image: DecorationImage(
-              //   image: null
-              // )
-            ),
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(imageSize / 2)
+                // image: DecorationImage(
+                //   image: null
+                // )
+                ),
           ),
-
           Container(
-            child: Text(name,
+            child: Text(
+              name,
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.center,
             ),

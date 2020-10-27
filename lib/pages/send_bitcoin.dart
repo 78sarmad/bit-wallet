@@ -39,29 +39,30 @@ class SendBitcoin extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CupertinoTextField(
-                      padding:
-                          const EdgeInsets.only(top: 10, bottom: 10, left: 10),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: AppColors.lightGrey, width: 2),
-                          borderRadius: BorderRadius.circular(5)),
-                      prefix: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          CupertinoIcons.search,
-                          color: AppColors.lightGrey,
-                        ),
-                      ),
-                      placeholder: "Search Contact",
-                      placeholderStyle: TextStyle(color: AppColors.lightGrey),
-                    ),
+                    // CupertinoTextField(
+                    //   padding:
+                    //       const EdgeInsets.only(top: 10, bottom: 10, left: 10),
+                    //   decoration: BoxDecoration(
+                    //       border:
+                    //           Border.all(color: AppColors.lightGrey, width: 2),
+                    //       borderRadius: BorderRadius.circular(5)),
+                    //   prefix: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: Icon(
+                    //       CupertinoIcons.search,
+                    //       color: AppColors.lightGrey,
+                    //     ),
+                    //   ),
+                    //   placeholder: "Search Contact",
+                    //   placeholderStyle: TextStyle(color: AppColors.lightGrey),
+                    // ),
                     Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 10),
+                      margin: const EdgeInsets.only(top: 5),
                       child: Text("Select Recipient",
                           style: TextStyle(
                               color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.bold,
+                              fontSize: Fonts.textFieldLabel)),
                     ),
                     Container(
                       height: 170,
@@ -69,10 +70,10 @@ class SendBitcoin extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigations.goToScreen(context, AddContact());
+                              Navigations.goToScreen(context, Notifications());
                             },
                             child: Container(
-                              child: AddContactCard(),
+                              child: ContactCard(),
                             ),
                           ),
                           Expanded(

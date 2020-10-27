@@ -6,15 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-class AddContact extends StatefulWidget {
+class EditProfilePage extends StatefulWidget {
   @override
-  _AddContactState createState() => _AddContactState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 
   String name, email;
-  AddContact({Key key, this.name, this.email}) : super(key: key);
+  EditProfilePage({Key key, this.name, this.email}) : super(key: key);
 }
 
-class _AddContactState extends State<AddContact> {
+class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController nameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -44,6 +44,7 @@ class _AddContactState extends State<AddContact> {
                 child: Stack(
                   children: [
                     Container(
+                      padding: EdgeInsets.all(10),
                       width: 130,
                       height: 130,
                       decoration: BoxDecoration(
@@ -57,29 +58,29 @@ class _AddContactState extends State<AddContact> {
                           ],
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.scaleDown,
                             image: AssetImage('assets/images/user.png'),
                           )),
                     ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            color: AppColors.darkOrange,
-                          ),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        )),
+                    // Positioned(
+                    //     bottom: 0,
+                    //     right: 0,
+                    //     child: Container(
+                    //       height: 40,
+                    //       width: 40,
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         border: Border.all(
+                    //           width: 4,
+                    //           color: Theme.of(context).scaffoldBackgroundColor,
+                    //         ),
+                    //         color: AppColors.darkOrange,
+                    //       ),
+                    //       child: Icon(
+                    //         Icons.edit,
+                    //         color: Colors.white,
+                    //       ),
+                    //     )),
                   ],
                 ),
               ),
@@ -93,7 +94,7 @@ class _AddContactState extends State<AddContact> {
               buildTextField("Password", "********", true, passwordController,
                   Icons.lock_open),
               SizedBox(
-                height: 25,
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,5 +1,6 @@
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/edit_profile.dart';
+import 'package:bitcoin_wallet/pages/notifications.dart';
 import 'package:bitcoin_wallet/pages/payment.dart';
 import 'package:bitcoin_wallet/pages/receive_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/send_bitcoin.dart';
@@ -51,8 +52,8 @@ class _HomeState extends State<Home> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          AddContact(name: widget.name, email: widget.email)));
+                      builder: (BuildContext context) => EditProfilePage(
+                          name: widget.name, email: widget.email)));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -272,8 +273,13 @@ class _HomeState extends State<Home> {
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
-                        Container(
-                          child: NotificationBadge(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigations.goToScreen(context, Notifications());
+                          },
+                          child: Container(
+                            child: NotificationBadge(),
+                          ),
                         )
                       ],
                     ),

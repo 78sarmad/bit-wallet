@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddContactCard extends StatelessWidget {
+class ContactCard extends StatelessWidget {
   final double containerSize = 110;
   final double imageSize = 40;
 
