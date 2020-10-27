@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -87,7 +88,7 @@ class _LoadingBarState extends State<LoadingBar> {
             },
           ));
         } else {
-          progressValue += 0.5;
+          progressValue += 1;
         }
       });
     });

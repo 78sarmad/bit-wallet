@@ -130,6 +130,9 @@ class Login extends StatelessWidget {
                     ])),
                     child: FlatButton(
                       onPressed: () async {
+                        Toast.show("Trying to sign in...", context,
+                            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
                         final email = _emailTxtController.text.trim();
                         final password = _pswdTxtController.text.trim();
 
@@ -137,9 +140,6 @@ class Login extends StatelessWidget {
                         if (!email.isNotEmpty && !password.isNotEmpty) {
                           await signIn("emily@gmail.com", "123456");
                           // await signIn(email, password);
-                          Toast.show("Signing in...", context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.BOTTOM);
 
                           bool isSignedIn = await checkAuth();
                           if (isSignedIn) {

@@ -1,6 +1,5 @@
 import 'package:bitcoin_wallet/controllers/pin_code.dart';
 import 'package:bitcoin_wallet/pages/numeric_key_pad.dart';
-import 'package:bitcoin_wallet/pages/payment.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/widgets/circular_container.dart';
 import 'package:bitcoin_wallet/widgets/custom_text_view.dart';
@@ -18,13 +17,6 @@ class _ConfirmationState extends State<Confirmation> {
   @override
   void initState() {
     super.initState();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Payment();
-        },
-      ),
-    );
     // TODO: set timer on
     // Timer.periodic(Duration(milliseconds: 500), (timer) {
     //   setState(() {

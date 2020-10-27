@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CardDbService {
+class ContactInfoService {
   final String uid;
   final String collection = "cards";
 
-  CardDbService({this.uid});
+  ContactInfoService({this.uid});
 
   void createRecord(
       String cardNo, String cardName, String cardExpiry, String cardCvc) async {
@@ -17,15 +17,16 @@ class CardDbService {
     });
   }
 
-  void getData() {
+  List getData() {
     final databaseReference = FirebaseFirestore.instance;
     List cardInfo = new List();
     databaseReference
         .collection(collection)
         .get()
         .then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach((f) => print(f.data));
+      snapshot.docs.forEach((f) => cardInfo.add(f.data));
     });
+    return (cardInfo);
   }
 
   void updateData(

@@ -22,7 +22,7 @@ class CustomInputField extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 20),
       width: screenWidth * 0.9,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,8 @@ class CustomInputField extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 5),
             child: Text(
               label,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: Fonts.textFieldLabel),
             ),
           ),
           Container(
@@ -46,7 +47,9 @@ class CustomInputField extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.white),
               controller: controller,
               placeholder: placeHolder,
-              placeholderStyle: TextStyle(color: AppColors.lightGrey),
+              placeholderStyle: TextStyle(
+                  color: AppColors.lightGrey,
+                  fontSize: Fonts.textFieldPlaceholder),
               suffix: suffixIcon != null ? suffixIcon : Container(),
               keyboardType:
                   keyboardType != null ? keyboardType : TextInputType.text,

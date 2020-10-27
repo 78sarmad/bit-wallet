@@ -6,15 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-class EditProfilePage extends StatefulWidget {
+class AddContact extends StatefulWidget {
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  _AddContactState createState() => _AddContactState();
 
   String name, email;
-  EditProfilePage({Key key, this.name, this.email}) : super(key: key);
+  AddContact({Key key, this.name, this.email}) : super(key: key);
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _AddContactState extends State<AddContact> {
   TextEditingController nameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -153,7 +153,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     child: Text(
-                      "SAVE",
+                      "UPDATE",
                       style: TextStyle(
                           fontSize: 14,
                           letterSpacing: 2.2,

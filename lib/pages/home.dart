@@ -1,6 +1,6 @@
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
-import 'package:bitcoin_wallet/pages/confirmation.dart';
 import 'package:bitcoin_wallet/pages/edit_profile.dart';
+import 'package:bitcoin_wallet/pages/payment.dart';
 import 'package:bitcoin_wallet/pages/receive_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/send_bitcoin.dart';
 import 'package:bitcoin_wallet/pages/splash.dart';
@@ -51,8 +51,8 @@ class _HomeState extends State<Home> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => EditProfilePage(
-                          name: widget.name, email: widget.email)));
+                      builder: (BuildContext context) =>
+                          AddContact(name: widget.name, email: widget.email)));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
               child: FlatButton(
                 onPressed: () async {
                   _innerDrawerKey.currentState.toggle();
-                  Navigations.goToScreen(context, Confirmation());
+                  Navigations.goToScreen(context, Payment());
                   // _authCubit.logoutUser();
                 },
                 child: Row(
