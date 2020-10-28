@@ -1,7 +1,8 @@
-import 'package:bitcoin_wallet/services/card_db_service.dart';
+import 'package:bitcoin_wallet/services/credit_card_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/custom_input_field.dart';
 import 'package:bitcoin_wallet/widgets/gradient_btn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,23 +27,40 @@ class _PaymentState extends State<Payment> {
   TextEditingController cardExpiryController = new TextEditingController();
   TextEditingController cardCvcController = new TextEditingController();
 
-  CardDbService CDS;
+  CreditCardService cds = new CreditCardService();
+
   Future<void> saveCreditCardInfo() async {
     String cardNo = cardNoController.text;
     String cardName = cardNameController.text;
     String cardExpiry = cardExpiryController.text;
     String cardCvc = cardCvcController.text;
 
-    CDS = new CardDbService(uid: user.uid);
-    CDS.createRecord(cardNo, cardName, cardExpiry, cardCvc);
+    cds.createRecord(cardNo, cardName, cardExpiry, cardCvc);
+  }
+
+  String cardNo = "1234\t5678\t3456\t2456";
+  String cardName = "John Doe";
+  String cardExpiry = "5 / 23";
+  String cardCvc = "123";
+
+  void retrieveCreditCardInfo() {
+    final databaseReference = FirebaseFirestore.instance;
+    databaseReference.collection("cards").get().then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((f) {
+        setState(() {
+          cardNo = f.data().values.elementAt(0);
+          cardCvc = f.data().values.elementAt(1);
+          cardName = f.data().values.elementAt(2);
+          cardExpiry = f.data().values.elementAt(3);
+        });
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-
-    // // TODO: Start here
-    // CDS.getData();
+    retrieveCreditCardInfo();
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
@@ -89,13 +107,12 @@ class _PaymentState extends State<Payment> {
                           CustomInputField(
                             controller: cardNoController,
                             label: "Card Number",
-                            placeHolder: "1234\t5678\t3456\t2456",
-                            // placeHolder: cards.docs[0].data.toString(),
+                            placeHolder: cardNo,
                           ),
                           CustomInputField(
                             controller: cardNameController,
                             label: "Cardholder name",
-                            placeHolder: "John Doe",
+                            placeHolder: cardName,
                           ),
                           Row(
                             children: [
@@ -103,7 +120,7 @@ class _PaymentState extends State<Payment> {
                                 child: CustomInputField(
                                   controller: cardExpiryController,
                                   label: "Expiry Date",
-                                  placeHolder: " 5 / 23",
+                                  placeHolder: cardExpiry,
                                 ),
                               ),
                               SizedBox(
@@ -113,7 +130,7 @@ class _PaymentState extends State<Payment> {
                                 child: CustomInputField(
                                   controller: cardCvcController,
                                   label: "CVC",
-                                  placeHolder: "123",
+                                  placeHolder: cardCvc,
                                 ),
                               ),
                             ],
@@ -152,11 +169,21 @@ class _PaymentState extends State<Payment> {
                         child: GradientBtn(
                           label: "UPDATE",
                           ontap: () {
-                            Toast.show("Credit Card Info updated.", context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.BOTTOM);
-                            saveCreditCardInfo();
-                            Navigator.of(context).pop();
+                            if (cardNoController.text.isNotEmpty &&
+                                cardNameController.text.isNotEmpty &&
+                                cardExpiryController.text.isNotEmpty &&
+                                cardCvcController.text.isNotEmpty) {
+                              saveCreditCardInfo();
+                              Toast.show("Credit Card Info updated.", context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM);
+                              Navigator.of(context).pop();
+                            } else {
+                              Toast.show(
+                                  "Please fill in all the fields.", context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM);
+                            }
                           },
                         ),
                       )
@@ -164,7 +191,7 @@ class _PaymentState extends State<Payment> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

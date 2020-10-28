@@ -1,10 +1,16 @@
+import 'package:bitcoin_wallet/models/credit_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ContactInfoService {
-  final String uid;
-  final String collection = "cards";
+class CreditCardService {
+  String uid;
+  String collection;
 
-  ContactInfoService({this.uid});
+  CreditCardService() {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    uid = firebaseUser.uid;
+    collection = "cards";
+  }
 
   void createRecord(
       String cardNo, String cardName, String cardExpiry, String cardCvc) async {
@@ -17,16 +23,23 @@ class ContactInfoService {
     });
   }
 
-  List getData() {
+  CreditCard getData() {
+    CreditCard card;
     final databaseReference = FirebaseFirestore.instance;
-    List cardInfo = new List();
     databaseReference
         .collection(collection)
         .get()
         .then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach((f) => cardInfo.add(f.data));
+      snapshot.docs.forEach((f) {
+        String no = f.data().values.elementAt(0);
+        String cvc = f.data().values.elementAt(1);
+        String name = f.data().values.elementAt(2);
+        String exp = f.data().values.elementAt(3);
+        card = new CreditCard(
+            cardNo: no, cardName: name, cardExpiry: exp, cardCvc: cvc);
+      });
     });
-    return (cardInfo);
+    return card;
   }
 
   void updateData(

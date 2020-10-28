@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// bool isSigned = false;
 
 class SplashScreen extends StatefulWidget {
   @override

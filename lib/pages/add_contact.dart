@@ -1,3 +1,4 @@
+import 'package:bitcoin_wallet/services/contact_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/custom_input_field.dart';
 import 'package:bitcoin_wallet/utils/header.dart';
@@ -12,9 +13,10 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController contactNameController = new TextEditingController();
+  TextEditingController contactAddressController = new TextEditingController();
+
+  ContactService cs = new ContactService();
 
   bool showPassword = false;
   @override
@@ -68,10 +70,12 @@ class _NotificationsState extends State<Notifications> {
                                 CustomInputField(
                                   label: "Full Name",
                                   placeHolder: "John Doe",
+                                  controller: contactNameController,
                                 ),
                                 CustomInputField(
                                   label: "Bitcoin Address",
                                   placeHolder: "Enter Bitcoin address",
+                                  controller: contactAddressController,
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(
@@ -79,11 +83,24 @@ class _NotificationsState extends State<Notifications> {
                                   child: GradientBtn(
                                     label: "ADD CONTACT",
                                     ontap: () {
-                                      //TODO: call contact service method
-                                      Toast.show("Contact added.", context,
-                                          duration: Toast.LENGTH_SHORT,
-                                          gravity: Toast.BOTTOM);
-                                      Navigator.of(context).pop();
+                                      final name = contactNameController.text;
+                                      final address =
+                                          contactAddressController.text;
+                                      if (name.isNotEmpty &&
+                                          address.isNotEmpty) {
+                                        cs.createRecord(name, address);
+                                        Toast.show("Contact added.", context,
+                                            duration: Toast.LENGTH_SHORT,
+                                            gravity: Toast.BOTTOM);
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                      } else {
+                                        Toast.show(
+                                            "Please fill in all the fields.",
+                                            context,
+                                            duration: Toast.LENGTH_SHORT,
+                                            gravity: Toast.BOTTOM);
+                                      }
                                     },
                                   ),
                                 )

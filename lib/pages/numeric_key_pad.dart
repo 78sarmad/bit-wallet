@@ -1,7 +1,5 @@
 import 'package:bitcoin_wallet/controllers/pin_code.dart';
-import 'package:bitcoin_wallet/pages/payment.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
-import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

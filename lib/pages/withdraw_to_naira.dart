@@ -1,14 +1,8 @@
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/custom_input_field.dart';
-import 'package:bitcoin_wallet/widgets/add_contact_card.dart';
 import 'package:bitcoin_wallet/widgets/bitcoin_blue.dart';
 import 'package:bitcoin_wallet/widgets/bitcoin_blue_box.dart';
-import 'package:bitcoin_wallet/widgets/custom_cupertino_icon.dart';
-import 'package:bitcoin_wallet/widgets/custom_text_view.dart';
 import 'package:bitcoin_wallet/widgets/gradient_btn.dart';
-import 'package:bitcoin_wallet/widgets/notification_badge.dart';
-import 'package:bitcoin_wallet/widgets/or_divider.dart';
-import 'package:bitcoin_wallet/widgets/receipient_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -2,19 +2,10 @@ import 'package:bitcoin_wallet/pages/confirmation.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/custom_input_field.dart';
 import 'package:bitcoin_wallet/utils/navigations.dart';
-import 'package:bitcoin_wallet/widgets/add_contact_card.dart';
 import 'package:bitcoin_wallet/widgets/bitcoin_blue.dart';
-import 'package:bitcoin_wallet/widgets/bitcoin_blue_box.dart';
-import 'package:bitcoin_wallet/widgets/custom_cupertino_icon.dart';
-import 'package:bitcoin_wallet/widgets/custom_text_view.dart';
 import 'package:bitcoin_wallet/widgets/gradient_btn.dart';
-import 'package:bitcoin_wallet/widgets/naira_orange_box.dart';
-import 'package:bitcoin_wallet/widgets/notification_badge.dart';
-import 'package:bitcoin_wallet/widgets/or_divider.dart';
-import 'package:bitcoin_wallet/widgets/receipient_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class BuyBitcoin extends StatelessWidget {
   @override
@@ -22,20 +13,18 @@ class BuyBitcoin extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         backgroundColor: AppColors.appBackground,
-        middle: Text("Buy Bitcoin",
+        middle: Text(
+          "Buy Bitcoin",
           style: TextStyle(color: Colors.black),
         ),
         actionsForegroundColor: Colors.black,
       ),
       backgroundColor: AppColors.appBackground,
       child: Column(
-        
         children: [
-
           SizedBox(
             height: 40,
           ),
-
           Expanded(
             child: Card(
               elevation: 3,
@@ -45,57 +34,52 @@ class BuyBitcoin extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-
-
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-
                         Container(
                           margin: const EdgeInsets.only(top: 15, bottom: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                child: Text("Current Price / BTC",
+                                child: Text(
+                                  "Current Price / BTC",
                                   style: TextStyle(
-                                    color: AppColors.lightGrey, 
+                                    color: AppColors.lightGrey,
                                   ),
                                 ),
                               ),
-
                               Container(
-                                child: Text("11,470.40",
+                                child: Text(
+                                  "11,470.40",
                                   style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold 
-
-                                  ),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               )
                             ],
                           ),
                         ),
-
                         CustomInputField(
-                          label: "Enter amount", 
-                          placeHolder: "₦ 0.00", 
-                          suffixIcon: BitcoinBlue(size: 24, iconSize: 18,)
-                        ),
-
+                            label: "Enter amount",
+                            placeHolder: "₦ 0.00",
+                            suffixIcon: BitcoinBlue(
+                              size: 24,
+                              iconSize: 18,
+                            )),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
                             margin: const EdgeInsets.only(top: 15, bottom: 15),
-                            child: Text("Payment Method",
+                            child: Text(
+                              "Payment Method",
                               style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold 
-                              ),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -104,15 +88,14 @@ class BuyBitcoin extends StatelessWidget {
                               width: 30,
                               margin: const EdgeInsets.only(right: 15),
                               decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage("assets/images/payment_card_small.png"),
-                                  fit: BoxFit.contain
-                                )
-                              ),
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/payment_card_small.png"),
+                                      fit: BoxFit.contain)),
                             ),
-
                             Container(
-                              child: Text("Credit / Debit card",
+                              child: Text(
+                                "Credit / Debit card",
                                 style: TextStyle(
                                   color: Colors.black,
                                 ),
@@ -120,48 +103,45 @@ class BuyBitcoin extends StatelessWidget {
                             )
                           ],
                         ),
-
-                         Align(
+                        Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
                             margin: const EdgeInsets.only(top: 30, bottom: 0),
-                            child: Text("You will receive",
+                            child: Text(
+                              "You will receive",
                               style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold 
-                              ),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
-
                         Container(
                           margin: const EdgeInsets.only(top: 15),
-                          child: Text("0.00034",
+                          child: Text(
+                            "0.00034",
                             style: TextStyle(
-                              color: Colors.black, 
-                              fontWeight: FontWeight.bold, 
-                              fontSize: 25
-                            ),
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25),
                           ),
                         ),
-
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: Text("BTC",
+                          child: Text(
+                            "BTC",
                             style: TextStyle(
-                              color: AppColors.lightGrey, 
+                              color: AppColors.lightGrey,
                               fontSize: 14,
                             ),
                           ),
                         ),
                       ],
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(top: 15, bottom: 20),
                       child: GradientBtn(
-                        label: "PROCEED TO PAY", 
-                        ontap: (){
+                        label: "PROCEED TO PAY",
+                        ontap: () {
                           Navigations.goToScreen(context, Confirmation());
                         },
                       ),
@@ -175,5 +155,4 @@ class BuyBitcoin extends StatelessWidget {
       ),
     );
   }
-
 }

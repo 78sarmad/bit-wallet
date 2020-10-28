@@ -48,19 +48,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       width: 130,
                       height: 130,
                       decoration: BoxDecoration(
-                          border: Border.all(width: 4, color: Colors.white),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: AppColors.darkOrange.withOpacity(0.2),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.scaleDown,
-                            image: AssetImage('assets/images/user.png'),
-                          )),
+                        border: Border.all(width: 4, color: Colors.white),
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: AppColors.darkOrange.withOpacity(0.2),
+                              offset: Offset(0, 10))
+                        ],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.scaleDown,
+                          image: AssetImage('assets/images/user.png'),
+                        ),
+                      ),
                     ),
                     // Positioned(
                     //     bottom: 0,
@@ -132,11 +133,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         Toast.show(
                             "Email changed. Please sign in again.", context,
                             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return Login();
-                          },
-                        ));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return Login();
+                            },
+                          ),
+                        );
                       } else {
                         Toast.show("Profile updated.", context,
                             duration: Toast.LENGTH_SHORT,
