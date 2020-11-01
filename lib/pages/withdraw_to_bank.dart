@@ -14,7 +14,7 @@ class WithdrawToBank extends StatelessWidget {
         backgroundColor: AppColors.appBackground,
         middle: Text(
           "Withdraw to Bank",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontSize: Fonts.pageHeadText),
         ),
         actionsForegroundColor: Colors.black,
       ),

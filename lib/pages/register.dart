@@ -1,5 +1,6 @@
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/services/auth_service.dart';
+import 'package:bitcoin_wallet/services/check_connectivity.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/widgets/bit_coin_logo2.dart';
 import 'package:bitcoin_wallet/widgets/rounded_square.dart';
@@ -8,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 class Register extends StatelessWidget {
-  final _pswdController = TextEditingController();
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
+  final _pswdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,6 @@ class Register extends StatelessWidget {
       backgroundColor: Colors.white,
       child: SafeArea(
         child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Column(
@@ -170,26 +169,32 @@ class Register extends StatelessWidget {
                         final email = _emailController.text.trim();
                         final password = _pswdController.text.trim();
                         final name = _nameController.text.trim();
-                        // final user = AppUser(email: email, name: name);
 
                         if (email.isNotEmpty && password.isNotEmpty) {
-                          await signUp(name, email, password);
+                          Connectivity conn = new Connectivity();
+                          bool isConnected = conn.check();
+                          if (!isConnected) {
+                            Toast.show("No internet connection.", context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.BOTTOM);
+                          } else {
+                            await signUp(name, email, password);
+                            // TODO: register wallet
 
-                          Toast.show("Registration Successful. Please sign in.",
-                              context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.BOTTOM);
+                            Toast.show(
+                                "Registration Successful. Please sign in.",
+                                context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.BOTTOM);
 
-                          bool isSignedIn = await checkAuth();
-                          if (isSignedIn) {
-                            final name = await checkDisplayName();
-                            final email = await checkDisplayEmail();
-
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return Login();
-                              },
-                            ));
+                            bool isSignedIn = await checkAuth();
+                            if (isSignedIn) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return Login();
+                                },
+                              ));
+                            }
                           }
                         } else {
                           Toast.show("Fill in all the fields", context,

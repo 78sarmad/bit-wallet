@@ -14,12 +14,9 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
-  User user;
-
   @override
   void initState() {
     super.initState();
-    user = FirebaseAuth.instance.currentUser;
   }
 
   TextEditingController cardNoController = new TextEditingController();
@@ -40,19 +37,18 @@ class _PaymentState extends State<Payment> {
 
   String cardNo = "1234\t5678\t3456\t2456";
   String cardName = "John Doe";
-  String cardExpiry = "5 / 23";
+  String cardExpiry = "01/23";
   String cardCvc = "123";
 
   void retrieveCreditCardInfo() {
+    final uid = FirebaseAuth.instance.currentUser.uid;
     final databaseReference = FirebaseFirestore.instance;
-    databaseReference.collection("cards").get().then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach((f) {
-        setState(() {
-          cardNo = f.data().values.elementAt(0);
-          cardCvc = f.data().values.elementAt(1);
-          cardName = f.data().values.elementAt(2);
-          cardExpiry = f.data().values.elementAt(3);
-        });
+    databaseReference.collection("cards").doc(uid).get().then((snapshot) {
+      setState(() {
+        cardNo = snapshot.data().values.elementAt(0);
+        cardCvc = snapshot.data().values.elementAt(1);
+        cardName = snapshot.data().values.elementAt(2);
+        cardExpiry = snapshot.data().values.elementAt(3);
       });
     });
   }

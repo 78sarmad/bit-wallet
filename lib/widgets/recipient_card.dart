@@ -1,4 +1,4 @@
-import 'package:bitcoin_wallet/pages/send_bitcoin_to_contact.dart';
+import 'package:bitcoin_wallet/pages/send_to_contact.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:flutter/material.dart';
 

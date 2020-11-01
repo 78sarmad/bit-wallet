@@ -29,7 +29,7 @@ class CustomInputField extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 5),
+            margin: const EdgeInsets.only(bottom: 10),
             child: Text(
               label,
               style: TextStyle(

@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 class GradientBtn extends StatelessWidget {
   final String label;
   final VoidCallback ontap;
+  final Color color;
 
-  GradientBtn({@required this.label, @required this.ontap});
+  GradientBtn({@required this.label, @required this.ontap, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +16,18 @@ class GradientBtn extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [AppColors.darkOrange, AppColors.lightOrange])
+        gradient: LinearGradient(colors: [
+          color ?? AppColors.darkOrange,
+          color ?? AppColors.lightOrange
+        ]),
       ),
       child: FlatButton(
-        onPressed: ontap, 
-        child: Text(label,
-          style: TextStyle(
-            color: Colors.white
-          ),
-        )
-      ),
+          onPressed: ontap,
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.white),
+          )),
     );
   }
 }

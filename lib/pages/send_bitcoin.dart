@@ -8,6 +8,7 @@ import 'package:bitcoin_wallet/widgets/gradient_btn.dart';
 import 'package:bitcoin_wallet/widgets/or_divider.dart';
 import 'package:bitcoin_wallet/widgets/recipient_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,17 +25,23 @@ class _SendBitcoinState extends State<SendBitcoin> {
   List contactAddresses = new List();
 
   Future<void> retrieveContactsInfo() async {
+    final uid = FirebaseAuth.instance.currentUser.uid;
     final databaseReference = FirebaseFirestore.instance;
-    await databaseReference
-        .collection("contacts")
-        .orderBy("contact_name")
-        .get()
-        .then((snapshot) {
+    await databaseReference.collection('contacts').get().then((snapshot) {
       snapshot.docs.forEach((f) {
-        setState(() {
-          contactNames.add(f.data().values.elementAt(0));
-          contactAddresses.add(f.data().values.elementAt(1));
-        });
+        for (int i = 0; i <= 2; i++) {
+          if (f.data().values.elementAt(i) == uid) {
+            int addr;
+            if (i == 1)
+              addr = 2;
+            else
+              addr = 1;
+            setState(() {
+              contactNames.add(f.data().values.elementAt(0));
+              contactAddresses.add(f.data().values.elementAt(addr));
+            });
+          }
+        }
       });
     });
   }
@@ -43,6 +50,11 @@ class _SendBitcoinState extends State<SendBitcoin> {
   void initState() {
     super.initState();
     retrieveContactsInfo();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -93,13 +105,13 @@ class _SendBitcoinState extends State<SendBitcoin> {
                               scrollDirection: Axis.horizontal,
                               itemCount: contactNames.length,
                               itemBuilder: (BuildContext context, int index) {
-                                print(contactNames[index]);
-                                return contactNames.isNotEmpty
-                                    ? new Center(
-                                        child: RecipientCard(
-                                            name: contactNames[index],
-                                            address: contactAddresses[index]))
-                                    : new CircularProgressIndicator();
+                                if (contactNames.isNotEmpty) {
+                                  return new Center(
+                                      child: RecipientCard(
+                                          name: contactNames[index],
+                                          address: contactAddresses[index]));
+                                }
+                                return CircularProgressIndicator();
                               },
                             ),
                           ),

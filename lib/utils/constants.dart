@@ -16,6 +16,7 @@ class AppColors {
 
 class Fonts {
   static const double pageHeadText = 20;
-  static const double textFieldLabel = 16;
+  static const double textHeadings = 18;
+  static const double textFieldLabel = 18;
   static const double textFieldPlaceholder = 16;
 }

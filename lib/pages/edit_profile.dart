@@ -2,6 +2,7 @@ import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/services/auth_service.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
+import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -133,22 +134,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         Toast.show(
                             "Email changed. Please sign in again.", context,
                             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return Login();
-                            },
-                          ),
-                        );
+                        Navigations.goToScreen(context, Login());
                       } else {
                         Toast.show("Profile updated.", context,
                             duration: Toast.LENGTH_SHORT,
                             gravity: Toast.BOTTOM);
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return Home(name: name, email: oldEmail);
-                          },
-                        ));
+                        Navigations.goToScreen(
+                            context, Home(name: name, email: oldEmail));
                       }
                     },
                     color: AppColors.darkOrange,

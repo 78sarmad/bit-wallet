@@ -26,59 +26,56 @@ class TransactionHistoryRow extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 10),
                     child: CircleAvatar(
                       radius: 20,
-                      backgroundColor: Colors.amber,
-                      // backgroundImage: AssetImage("",),
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage('assets/images/user.png'),
                     ),
                   ),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                     Container(
-                      child: Text(name),
-                     ),
-                     Container(
-                       margin: const EdgeInsets.only(top: 8),
-                      child: Text(time,
-                        style: TextStyle(color: AppColors.lightGrey,
-                          fontSize: 15
+                      Container(
+                        child: Text(name),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          time,
+                          style: TextStyle(
+                              color: AppColors.lightGrey, fontSize: 15),
                         ),
                       ),
-                     ),
                     ],
                   )
                 ],
               ),
-
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(right: 8),
-                    child: Text(amount,
+                    child: Text(
+                      amount,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-
-                  Icon(CupertinoIcons.right_chevron,
+                  Icon(
+                    CupertinoIcons.right_chevron,
                     color: AppColors.lightGrey,
                   )
                 ],
               ),
             ],
           ),
-
           Container(
             margin: const EdgeInsets.only(top: 15),
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    color: AppColors.lightGrey.withOpacity(0.3),
-                    height: 2,
-                  )
-                )
+                    child: Container(
+                  color: AppColors.lightGrey.withOpacity(0.3),
+                  height: 2,
+                ))
               ],
             ),
           )

@@ -19,8 +19,7 @@ class WithdrawToNaira extends StatelessWidget {
         actionsForegroundColor: Colors.black,
       ),
       backgroundColor: AppColors.appBackground,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: ListView(
         children: [
           Container(
               margin: const EdgeInsets.only(
@@ -40,11 +39,12 @@ class WithdrawToNaira extends StatelessWidget {
                       children: [
                         CustomInputField(
                             label: "Bitcoin",
-                            placeHolder: "\$ 0.00BTC",
+                            placeHolder: "0.00 BTC",
                             suffixIcon: BitcoinBlue(
                               size: 24,
                               iconSize: 18,
                             )),
+                        SizedBox(height: 50),
                         Container(
                           margin: const EdgeInsets.only(top: 30),
                           child: Text(
@@ -67,6 +67,7 @@ class WithdrawToNaira extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10),
                     Container(
                       margin: const EdgeInsets.only(top: 15, bottom: 20),
                       child: GradientBtn(label: "WITHDRAW", ontap: () {}),

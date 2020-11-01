@@ -4,6 +4,8 @@ import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:bitcoin_wallet/utils/custom_input_field.dart';
 import 'package:bitcoin_wallet/utils/header.dart';
 import 'package:bitcoin_wallet/widgets/gradient_btn.dart';
+import 'package:bitcoin_wallet/widgets/or_divider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -35,7 +37,7 @@ class _SendBitcoinToContactState extends State<SendBitcoinToContact> {
       ),
       backgroundColor: Colors.white,
       child: Container(
-        padding: EdgeInsets.only(left: 16, top: 50, right: 16, bottom: 100),
+        padding: EdgeInsets.only(left: 16, top: 50, right: 16),
         child: ListView(
           children: [
             Center(
@@ -64,10 +66,10 @@ class _SendBitcoinToContactState extends State<SendBitcoinToContact> {
                     ],
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: EdgeInsets.only(top: 20),
                       child: Text(widget.contactName ?? "null",
                           style: TextStyle(fontSize: 24))),
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
                   Stack(
                     children: [
                       Column(
@@ -120,6 +122,7 @@ class _SendBitcoinToContactState extends State<SendBitcoinToContact> {
                                               duration: Toast.LENGTH_SHORT,
                                               gravity: Toast.BOTTOM);
                                           Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
                                         } else {
                                           Toast.show(
                                               "Please fill in the amount.",
@@ -127,6 +130,24 @@ class _SendBitcoinToContactState extends State<SendBitcoinToContact> {
                                               duration: Toast.LENGTH_SHORT,
                                               gravity: Toast.BOTTOM);
                                         }
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Divider(),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    child: GradientBtn(
+                                      color: Colors.red,
+                                      label: "DELETE CONTACT",
+                                      ontap: () {
+                                        cs.deleteRecord(widget.contactName);
+                                        Toast.show("Contact has been deleted.",
+                                            context,
+                                            duration: Toast.LENGTH_SHORT,
+                                            gravity: Toast.BOTTOM);
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
                                       },
                                     ),
                                   )
@@ -192,4 +213,41 @@ class _SendBitcoinToContactState extends State<SendBitcoinToContact> {
       ),
     );
   }
+
+  // showAlertDialog(BuildContext context) {
+  //   // set up the buttons
+  //   Widget cancelButton = CupertinoButton(
+  //     child: Text("Cancel"),
+  //     onPressed: () {
+  //       Navigator.of(context).pop();
+  //     },
+  //   );
+  //   Widget continueButton = CupertinoButton.filled(
+  //     child: Text("Delete"),
+  //     disabledColor: Colors.red,
+  //     onPressed: () {
+  //       cs.deleteRecord(widget.contactName);
+  //       Toast.show("Contact has been deleted.", context,
+  //           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+  //       Navigator.of(context).pop();
+  //       Navigator.of(context).pop();
+  //     },
+  //   );
+  //   // set up the AlertDialog
+  //   CupertinoAlertDialog alert = CupertinoAlertDialog(
+  //     title: Text("Delete Confirmation"),
+  //     content: Text("Are you sure you want to delete this contact?"),
+  //     actions: [
+  //       cancelButton,
+  //       continueButton,
+  //     ],
+  //   );
+  //   // show the dialog
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return alert;
+  //     },
+  //   );
+  // }
 }

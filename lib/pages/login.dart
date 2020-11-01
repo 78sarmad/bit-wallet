@@ -1,7 +1,9 @@
 import 'package:bitcoin_wallet/pages/home.dart';
 import 'package:bitcoin_wallet/pages/register.dart';
 import 'package:bitcoin_wallet/services/auth_service.dart';
+import 'package:bitcoin_wallet/services/check_connectivity.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
+import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:bitcoin_wallet/widgets/bit_coin_logo2.dart';
 import 'package:bitcoin_wallet/widgets/rounded_square.dart';
 import 'package:flutter/cupertino.dart';
@@ -137,25 +139,34 @@ class Login extends StatelessWidget {
                         final password = _pswdTxtController.text.trim();
 
                         // TODO: reverse check
-                        if (!email.isNotEmpty && !password.isNotEmpty) {
-                          await signIn("emily@gmail.com", "123456");
-                          // await signIn(email, password);
-
-                          bool isSignedIn = await checkAuth();
-                          if (isSignedIn) {
-                            final name = await checkDisplayName();
-                            final email = await checkDisplayEmail();
-
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return Home(name: name, email: email);
-                              },
-                            ));
-                          } else {
-                            Toast.show("Incorrect email or password", context,
-                                duration: Toast.LENGTH_SHORT,
+                        if (email.isNotEmpty && password.isNotEmpty) {
+                          Connectivity conn = new Connectivity();
+                          bool isConnected = conn.check();
+                          if (!isConnected) {
+                            Toast.show("No internet connection.", context,
+                                duration: Toast.LENGTH_LONG,
                                 gravity: Toast.BOTTOM);
-                            Navigator.of(context).pop();
+                          } else {
+                            // await signIn("sarmad@gmail.com", "123456");
+                            await signIn(email, password);
+
+                            bool isSignedIn = await checkAuth();
+                            if (isSignedIn) {
+                              Toast.show("Sign in successful.", context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM);
+
+                              final name = await checkDisplayName();
+                              final email = await checkDisplayEmail();
+
+                              Navigations.goToScreen(
+                                  context, Home(name: name, email: email));
+                            } else {
+                              Toast.show("Incorrect email or password", context,
+                                  duration: Toast.LENGTH_SHORT,
+                                  gravity: Toast.BOTTOM);
+                              Navigator.of(context).pop();
+                            }
                           }
                         } else {
                           Toast.show("Fill in all the fields", context,
@@ -187,8 +198,7 @@ class Login extends StatelessWidget {
                         Transform.rotate(angle: -45, child: RoundedSquare())),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Register()));
+                    Navigations.goToScreen(context, Register());
                   },
                   child: Container(
                     child: RichText(

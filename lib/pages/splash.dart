@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bitcoin_wallet/pages/login.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
+import 'package:bitcoin_wallet/utils/navigations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -79,11 +80,7 @@ class _LoadingBarState extends State<LoadingBar> {
       setState(() {
         if (progressValue >= 1) {
           timer.cancel();
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) {
-              return Login();
-            },
-          ));
+          Navigations.goToScreen(context, Login());
         } else {
           progressValue += 1;
         }

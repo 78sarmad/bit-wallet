@@ -1,3 +1,4 @@
+import 'package:bitcoin_wallet/controllers/coinbase/get_price.dart';
 import 'package:bitcoin_wallet/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -60,20 +61,33 @@ class BitcoinBlueBox extends StatelessWidget {
                         ],
                       ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
-                            child: Text(
-                              "\$ 9054.32",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            alignment: Alignment.topRight,
+                            child: FutureBuilder(
+                                future: getSellPrice(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Container(
+                                      child: Text(
+                                        "\$ " + snapshot.data.amount,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    );
+                                  } else {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                }),
                           ),
                           Container(
+                            alignment: Alignment.topRight,
                             child: Text(
-                              "0.09BTC",
+                              "1 BTC",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14),
                             ),

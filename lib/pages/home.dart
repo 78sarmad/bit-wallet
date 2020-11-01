@@ -1,4 +1,6 @@
+import 'package:bitcoin_wallet/controllers/coinbase/get_price.dart';
 import 'package:bitcoin_wallet/pages/buy_bitcoin.dart';
+import 'package:bitcoin_wallet/pages/confirmation.dart';
 import 'package:bitcoin_wallet/pages/edit_profile.dart';
 import 'package:bitcoin_wallet/pages/notifications.dart';
 import 'package:bitcoin_wallet/pages/payment.dart';
@@ -33,6 +35,11 @@ class _HomeState extends State<Home> {
       GlobalKey<InnerDrawerState>();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final double imageSize = 60;
@@ -51,9 +58,8 @@ class _HomeState extends State<Home> {
                       colors: [AppColors.darkOrange, AppColors.lightOrange])),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => EditProfilePage(
-                          name: widget.name, email: widget.email)));
+                  Navigations.goToScreen(context,
+                      EditProfilePage(name: widget.name, email: widget.email));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +88,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              padding: const EdgeInsets.only(top: 10),
               child: FlatButton(
                 onPressed: () {
                   _innerDrawerKey.currentState.toggle();
@@ -205,14 +211,7 @@ class _HomeState extends State<Home> {
                   await checkAuth();
                   Toast.show("Signing out...", context,
                       duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return SplashScreen();
-                      },
-                    ),
-                  );
-                  // _authCubit.logoutUser();
+                  Navigations.goToScreen(context, SplashScreen());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -351,21 +350,41 @@ class _HomeState extends State<Home> {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              child: Text(
-                                                "\$9054.32",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                              height: 30,
+                                              width: 90,
+                                              child: FutureBuilder(
+                                                  future: getSpotPrice(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Container(
+                                                        child: Text(
+                                                          "\$ " +
+                                                              snapshot
+                                                                  .data.amount,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return Center(
+                                                          child:
+                                                              CircularProgressIndicator());
+                                                    }
+                                                  }),
                                             ),
                                             Container(
                                               child: Text(
-                                                "0.09BTC",
+                                                "1 BTC",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 14),

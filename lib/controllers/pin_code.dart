@@ -1,71 +1,67 @@
 import 'package:bitcoin_wallet/services/local_service.dart';
 
-int pressCount = 0;
+class PinCode {
+  String pinCode = "";
+  String pinCodeKey = "pin_code";
+  bool checkSet = false;
+  bool checkMatch = false;
 
-void incrementPressCount() {
-  pressCount++;
-}
+  void grabPinDigits(String digit) {
+    pinCode += digit;
+    print("grabdigit: " + pinCode);
+  }
 
-void resetPressCount() {
-  pressCount = 0;
-}
+  String getPinCode() {
+    print(pinCode);
+    return (pinCode);
+  }
 
-int getPressCount() {
-  return (pressCount);
-}
+  void savePinCode() async {
+    print(pinCode);
+    await saveLocalData(pinCodeKey, pinCode);
+  }
 
-String pinCode = "";
-String pinCodeKey = "pin_code";
-bool checkSet = true;
-bool checkMatch = false;
+  Future<void> checkPinSet() async {
+    final pin = await getLocalData(pinCodeKey);
+    if (pin != "null") checkSet = true;
+  }
 
-void grabPinDigits(String digit) {
-  pinCode += digit;
-}
+  bool isPinSet() {
+    return checkSet;
+  }
 
-String getPinCode() {
-  return (pinCode);
-}
+  void resetPinCode() {
+    pinCode = "";
+    print("--> resetPinCode");
+  }
 
-void resetPinCode() {
-  pinCode = "";
-}
+  Future<void> checkPinMatch() async {
+    final pin = await getLocalData(pinCodeKey);
+    print("saved pin: " + pin);
+    print("input pin: " + pinCode);
+    print("checkPinMatch equal?");
+    print(pinCode == pin.toString());
 
-void savePinCode() async {
-  await saveLocalData(pinCodeKey, pinCode);
-}
+    if (pin.toString() == pinCode) checkMatch = true;
+  }
 
-void checkPinSet() async {
-  final pin = await getLocalData(pinCodeKey);
-  if (pin == "null") checkSet = false;
-}
+  bool isPinMatched() {
+    return checkMatch;
+  }
 
-bool isPinSet() {
-  checkPinSet();
-  return (checkSet);
-}
+  void resetPinSet() {
+    checkSet = false;
+    print("--> reset pin set");
+  }
 
-void resetPinSet() {
-  checkSet = true;
-}
+  void resetPinMatch() {
+    checkMatch = false;
+    print("--> reset pin match");
+  }
 
-void checkPinMatch() async {
-  final pin = await getLocalData(pinCodeKey);
-  if (pin.toString() == pinCode) checkMatch = true;
-}
-
-bool isPinMatched() {
-  checkPinMatch();
-  return (checkMatch);
-}
-
-void resetPinMatch() {
-  checkMatch = false;
-}
-
-void resetAll() {
-  resetPressCount();
-  resetPinCode();
-  resetPinSet();
-  resetPinMatch();
+  void resetAll() {
+    resetPinCode();
+    resetPinSet();
+    resetPinMatch();
+  }
 }
