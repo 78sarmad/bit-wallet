@@ -1,4 +1,4 @@
-import 'package:bitcoin_wallet/services/local_service.dart';
+import 'package:bitcoin_wallet/controllers/services/local/local_service.dart';
 
 class PinCode {
   String pinCode = "";

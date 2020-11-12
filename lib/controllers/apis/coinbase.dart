@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:async';
-import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-import 'package:bitcoin_wallet/models/podos/price.dart';
+import 'package:bitcoin_wallet/models/bitcoin_price.dart';
+import 'package:http/http.dart' as http;
 
 Future<Price> getSpotPrice() async {
   Price result;

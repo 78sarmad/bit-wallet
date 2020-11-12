@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>289161317747-i8u8n8l989i8scjkiiaj3f4n31n78pvj.apps.googleusercontent.com</string>
+	<string>783293083438-n3kdtgpclmsu7lunjpo5eb8n2ttlfuht.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.289161317747-i8u8n8l989i8scjkiiaj3f4n31n78pvj</string>
+	<string>com.googleusercontent.apps.783293083438-n3kdtgpclmsu7lunjpo5eb8n2ttlfuht</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAoVgb7ni-pRhcfOMEbGIewh6so90pnShI</string>
+	<string>AIzaSyCFTIOX2bAcga7KmrZi3hcvWZuFluJWgbg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>289161317747</string>
+	<string>783293083438</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.bitcoinwallet.ios</string>
 	<key>PROJECT_ID</key>
-	<string>bitcoin-wallet-20483</string>
+	<string>bitcoin-wallet-app</string>
 	<key>STORAGE_BUCKET</key>
-	<string>bitcoin-wallet-20483.appspot.com</string>
+	<string>bitcoin-wallet-app.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:289161317747:ios:fcccbb99d170e6c3e54906</string>
+	<string>1:783293083438:ios:2a8de591af2800802894bf</string>
 	<key>DATABASE_URL</key>
-	<string>https://bitcoin-wallet-20483.firebaseio.com</string>
+	<string>https://bitcoin-wallet-app.firebaseio.com</string>
 </dict>
 </plist>
